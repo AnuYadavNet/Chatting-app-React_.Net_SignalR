@@ -1,4 +1,4 @@
-# ⚡ ChattingApp17Mar2026
+# ⚡ Real time Chatting App
 ### Real-time Chat · .NET 8 · SignalR · React · SQL Server
 
 ---
