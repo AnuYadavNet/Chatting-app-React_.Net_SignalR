@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>ChattingApp.Domain</RootNamespace>
+  </PropertyGroup>
+
+  <!-- 
+    Domain project has ZERO external dependencies.
+    This is intentional — the domain must stay pure and portable.
+  -->
+
+</Project>

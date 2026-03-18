@@ -1,0 +1,22 @@
+P:\Projects\Chattingapp17MarClaude\Chatting_app17Mar2026\Chatting app17Mar2026\Backend\ChattingApp\ChattingApp.Domain\bin\Debug\net8.0\ChattingApp.Domain.deps.json
+P:\Projects\Chattingapp17MarClaude\Chatting_app17Mar2026\Chatting app17Mar2026\Backend\ChattingApp\ChattingApp.Domain\bin\Debug\net8.0\ChattingApp.Domain.dll
+P:\Projects\Chattingapp17MarClaude\Chatting_app17Mar2026\Chatting app17Mar2026\Backend\ChattingApp\ChattingApp.Domain\bin\Debug\net8.0\ChattingApp.Domain.pdb
+P:\Projects\Chattingapp17MarClaude\Chatting_app17Mar2026\Chatting app17Mar2026\Backend\ChattingApp\ChattingApp.Domain\obj\Debug\net8.0\ChattingApp.Domain.GeneratedMSBuildEditorConfig.editorconfig
+P:\Projects\Chattingapp17MarClaude\Chatting_app17Mar2026\Chatting app17Mar2026\Backend\ChattingApp\ChattingApp.Domain\obj\Debug\net8.0\ChattingApp.Domain.AssemblyInfoInputs.cache
+P:\Projects\Chattingapp17MarClaude\Chatting_app17Mar2026\Chatting app17Mar2026\Backend\ChattingApp\ChattingApp.Domain\obj\Debug\net8.0\ChattingApp.Domain.AssemblyInfo.cs
+P:\Projects\Chattingapp17MarClaude\Chatting_app17Mar2026\Chatting app17Mar2026\Backend\ChattingApp\ChattingApp.Domain\obj\Debug\net8.0\ChattingApp.Domain.csproj.CoreCompileInputs.cache
+P:\Projects\Chattingapp17MarClaude\Chatting_app17Mar2026\Chatting app17Mar2026\Backend\ChattingApp\ChattingApp.Domain\obj\Debug\net8.0\ChattingApp.Domain.dll
+P:\Projects\Chattingapp17MarClaude\Chatting_app17Mar2026\Chatting app17Mar2026\Backend\ChattingApp\ChattingApp.Domain\obj\Debug\net8.0\refint\ChattingApp.Domain.dll
+P:\Projects\Chattingapp17MarClaude\Chatting_app17Mar2026\Chatting app17Mar2026\Backend\ChattingApp\ChattingApp.Domain\obj\Debug\net8.0\ChattingApp.Domain.pdb
+P:\Projects\Chattingapp17MarClaude\Chatting_app17Mar2026\Chatting app17Mar2026\Backend\ChattingApp\ChattingApp.Domain\obj\Debug\net8.0\ref\ChattingApp.Domain.dll
+P:\Projects\ChattingappReactSignalR\Backend\ChattingApp\ChattingApp.Domain\bin\Debug\net8.0\ChattingApp.Domain.deps.json
+P:\Projects\ChattingappReactSignalR\Backend\ChattingApp\ChattingApp.Domain\bin\Debug\net8.0\ChattingApp.Domain.dll
+P:\Projects\ChattingappReactSignalR\Backend\ChattingApp\ChattingApp.Domain\bin\Debug\net8.0\ChattingApp.Domain.pdb
+P:\Projects\ChattingappReactSignalR\Backend\ChattingApp\ChattingApp.Domain\obj\Debug\net8.0\ChattingApp.Domain.GeneratedMSBuildEditorConfig.editorconfig
+P:\Projects\ChattingappReactSignalR\Backend\ChattingApp\ChattingApp.Domain\obj\Debug\net8.0\ChattingApp.Domain.AssemblyInfoInputs.cache
+P:\Projects\ChattingappReactSignalR\Backend\ChattingApp\ChattingApp.Domain\obj\Debug\net8.0\ChattingApp.Domain.AssemblyInfo.cs
+P:\Projects\ChattingappReactSignalR\Backend\ChattingApp\ChattingApp.Domain\obj\Debug\net8.0\ChattingApp.Domain.csproj.CoreCompileInputs.cache
+P:\Projects\ChattingappReactSignalR\Backend\ChattingApp\ChattingApp.Domain\obj\Debug\net8.0\ChattingApp.Domain.dll
+P:\Projects\ChattingappReactSignalR\Backend\ChattingApp\ChattingApp.Domain\obj\Debug\net8.0\refint\ChattingApp.Domain.dll
+P:\Projects\ChattingappReactSignalR\Backend\ChattingApp\ChattingApp.Domain\obj\Debug\net8.0\ChattingApp.Domain.pdb
+P:\Projects\ChattingappReactSignalR\Backend\ChattingApp\ChattingApp.Domain\obj\Debug\net8.0\ref\ChattingApp.Domain.dll

@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="ChattingApp.API/ChattingApp.API.csproj" />
+  <Project Path="ChattingApp.Application/ChattingApp.Application.csproj" />
+  <Project Path="ChattingApp.Domain/ChattingApp.Domain.csproj" />
+  <Project Path="ChattingApp.Infrastructure/ChattingApp.Infrastructure.csproj" />
+</Solution>
