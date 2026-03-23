@@ -1,7 +1,7 @@
 using ChattingApp.Application.DTOs;
 using ChattingApp.Application.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
-using Microsoft.Extensions.Logging;
 
 namespace ChattingApp.API.Hubs
 {
@@ -10,8 +10,7 @@ namespace ChattingApp.API.Hubs
     ///
     /// DESIGN DECISIONS:
     /// - Uses Groups to route messages between specific users.
-    ///   When User A and User B start chatting, they join a shared group
-    ///   named by sorting their IDs (e.g., "chat_UserA_UserB").
+    ///   When User A and User B start chatting, they join a shared group named by sorting their IDs (e.g., "chat_UserA_UserB").
     ///   This ensures messages go only to the intended pair.
     ///
     /// - Hub methods are thin: they validate input, delegate to IChatService,
@@ -20,6 +19,7 @@ namespace ChattingApp.API.Hubs
     /// - Connection tracking: a static ConcurrentDictionary maps
     ///   ConnectionId → UserId for presence awareness.
     /// </summary>
+    [Authorize]
     public class ChatHub : Hub
     {
         // Tracks active connections: ConnectionId → UserId
@@ -107,12 +107,10 @@ namespace ChattingApp.API.Hubs
 
         /// <summary>
         /// Sends a message from one user to another.
-        ///
         /// Flow:
         ///   1. Client invokes SendMessage(dto)
         ///   2. Hub delegates to ChatService (saves to DB)
         ///   3. Hub broadcasts the saved MessageDto to the chat group
-        ///
         /// Client call:  connection.invoke("SendMessage", { senderId, receiverId, messageText })
         /// </summary>
         public async Task SendMessage(SendMessageDto sendMessageDto)
@@ -133,10 +131,9 @@ namespace ChattingApp.API.Hubs
             }
             catch (ArgumentException ex)
             {
-                // Return validation errors only to the sender
                 await Clients.Caller.SendAsync("Error", ex.Message);
             }
-            catch (Exception ex)
+            catch (Exception ex) 
             {
                 _logger.LogError(ex, "Unexpected error in SendMessage hub method.");
                 await Clients.Caller.SendAsync("Error", "An unexpected error occurred. Please try again.");

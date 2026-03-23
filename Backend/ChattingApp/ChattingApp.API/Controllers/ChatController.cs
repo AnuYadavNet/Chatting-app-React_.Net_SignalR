@@ -1,5 +1,6 @@
 using ChattingApp.Application.DTOs;
 using ChattingApp.Application.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ChattingApp.API.Controllers
@@ -13,6 +14,7 @@ namespace ChattingApp.API.Controllers
     /// All real-time interactions are handled by ChatHub;
     /// this controller supports REST-based workflows.
     /// </summary>
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     [Produces("application/json")]
@@ -27,10 +29,6 @@ namespace ChattingApp.API.Controllers
             _logger = logger;
         }
 
-        /// <summary>
-        /// GET /api/chat/history?userA=alice&amp;userB=bob
-        /// Returns all messages exchanged between two users, oldest first.
-        /// </summary>
         [HttpGet("history")]
         [ProducesResponseType(typeof(IEnumerable<MessageDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]

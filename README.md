@@ -37,14 +37,15 @@
 
 React Frontend
 ┌──────────────────────────────────────────────────────────────────┐
-│  App.jsx  (split-screen layout)                                   │
-│  ├── ChatPanel.jsx (User A)  ←→  ChatPanel.jsx (User B)          │
-│  │   ├── MessageBubble.jsx                                        │
-│  │   └── ConnectionBadge.jsx                                      │
+│  App.jsx  (React Router & Protected Routes)                       │
+│  ├── pages/Login.jsx & Register.jsx (JWT Authentication)          │
+│  ├── pages/ChatDashboard.jsx (Main chat interface)                │
+│  │   └── ChatPanel.jsx (Message list + input)                     │
+│  │       ├── MessageBubble.jsx                                    │
+│  │       └── ConnectionBadge.jsx                                  │
 │  ├── hooks/useChatSignalR.js  (SignalR connection lifecycle)      │
-│  └── services/signalRService.js  (HubConnectionBuilder factory)   │
+│  └── services/ (signalRService.js & api.js with JWT interceptors) │
 └──────────────────────────────────────────────────────────────────┘
-```
 
 ---
 
@@ -57,6 +58,7 @@ P:\Chatting app17Mar2026\
 │   └── ChattingApp\
 │       ├── ChattingApp.API\
 │       │   ├── Controllers\
+│       │   │   ├── AuthController.cs
 │       │   │   └── ChatController.cs
 │       │   ├── Hubs\
 │       │   │   └── ChatHub.cs
@@ -68,31 +70,38 @@ P:\Chatting app17Mar2026\
 │       │   ├── BackgroundServices\
 │       │   │   └── MessageCleanupService.cs
 │       │   ├── DTOs\
+│       │   │   ├── Auth\ (LoginDto.cs, AuthResponseDto.cs, RegisterDto.cs)
 │       │   │   └── MessageDto.cs
 │       │   ├── Interfaces\
+│       │   │   ├── IAuthService.cs
 │       │   │   ├── IChatRepository.cs
-│       │   │   └── IChatService.cs
+│       │   │   ├── IChatService.cs
+│       │   │   └── IUserRepository.cs
 │       │   ├── Services\
+│       │   │   ├── AuthService.cs
 │       │   │   └── ChatService.cs
 │       │   └── ChattingApp.Application.csproj
 │       │
 │       ├── ChattingApp.Domain\
 │       │   ├── Entities\
-│       │   │   └── Message.cs
+│       │   │   ├── Message.cs
+│       │   │   └── User.cs
 │       │   └── ChattingApp.Domain.csproj
 │       │
 │       └── ChattingApp.Infrastructure\
 │           ├── Data\
 │           │   └── DbConnectionFactory.cs
 │           ├── Repositories\
-│           │   └── ChatRepository.cs
+│           │   ├── ChatRepository.cs
+│           │   └── UserRepository.cs
 │           └── ChattingApp.Infrastructure.csproj
 │
 ├── Database\
 │   └── Scripts\
 │       ├── 01_CreateTables.sql
 │       ├── 02_StoredProcedures.sql
-│       └── 03_SqlAgentCleanupJob.sql   ← Optional safety net
+│       ├── 03_SqlAgentCleanupJob.sql   ← Optional safety net
+│       └── 04_CreateUsersTable.sql     ← Users table & Auth SPs
 │
 └── Frontend\
     └── chatting-app\
@@ -105,7 +114,12 @@ P:\Chatting app17Mar2026\
         │   │   └── ConnectionBadge.jsx
         │   ├── hooks\
         │   │   └── useChatSignalR.js
+        │   ├── pages\
+        │   │   ├── ChatDashboard.jsx
+        │   │   ├── Login.jsx
+        │   │   └── Register.jsx
         │   ├── services\
+        │   │   ├── api.js
         │   │   └── signalRService.js
         │   ├── App.jsx
         │   ├── App.css
@@ -253,7 +267,7 @@ Both UIs update instantly — zero page refresh needed.
 
 ## 🚀 Production Checklist
 
-- [ ] Replace hardcoded UserA/UserB with JWT authentication
+- [x] Replace hardcoded UserA/UserB with JWT authentication (Done)
 - [ ] Add HTTPS certificate in production (not dev cert)
 - [ ] Set `REACT_APP_HUB_URL` to production domain
 - [ ] Enable SignalR Azure Service for horizontal scaling

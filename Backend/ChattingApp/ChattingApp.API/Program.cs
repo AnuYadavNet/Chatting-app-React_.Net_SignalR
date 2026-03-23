@@ -4,17 +4,16 @@ using ChattingApp.Application.Interfaces;
 using ChattingApp.Application.Services;
 using ChattingApp.Infrastructure.Data;
 using ChattingApp.Infrastructure.Repositories;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// ============================================================================
-// SERVICE REGISTRATION (Dependency Injection Container)
-// ============================================================================
 
-// --- Controllers ---
 builder.Services.AddControllers();
 
-// --- Swagger / OpenAPI ---
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
@@ -24,17 +23,31 @@ builder.Services.AddSwaggerGen(c =>
         Version = "v1",
         Description = "Real-time chat API powered by SignalR + SQL Server"
     });
+
+    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        In = ParameterLocation.Header,
+        Description = "Please enter 'Bearer [jwt]'",
+        Name = "Authorization",
+        Type = SecuritySchemeType.ApiKey,
+        Scheme = "Bearer"
+    });
+    c.AddSecurityRequirement(new OpenApiSecurityRequirement {
+    {
+        new OpenApiSecurityScheme
+        {
+            Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = "Bearer" }
+        },
+        new string[] { }
+    }});
 });
 
-// --- CORS: Allow React dev server (http://localhost:3000) ---
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("ReactDevPolicy", policy =>
     {
         policy
-            .WithOrigins(
-                "http://localhost:3000",   // React dev server
-                "http://localhost:5173")   // Vite dev server (if used)
+            .WithOrigins("http://localhost:3000")   // Allowing React dev server only
             .AllowAnyHeader()
             .AllowAnyMethod()
             .AllowCredentials(); // Required for SignalR WebSocket negotiation
@@ -53,11 +66,41 @@ builder.Services.AddSignalR(options =>
 // --- Infrastructure Layer ---
 builder.Services.AddScoped<IDbConnectionFactory, SqlConnectionFactory>();
 builder.Services.AddScoped<IChatRepository, ChatRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 // --- Application Layer ---
 builder.Services.AddScoped<IChatService, ChatService>();
+builder.Services.AddScoped<IAuthService, AuthService>();
 
-// --- Background Service: Message Cleanup (runs every hour) ---
+// --- Authentication ---
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = builder.Configuration["Jwt:Issuer"],
+            ValidAudience = builder.Configuration["Jwt:Audience"],
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]!))
+        };
+        options.Events = new JwtBearerEvents
+        {
+            OnMessageReceived = context =>
+            {
+                var accessToken = context.Request.Query["access_token"];
+                var path = context.HttpContext.Request.Path;
+                if (!string.IsNullOrEmpty(accessToken) && path.StartsWithSegments("/hubs/chat"))
+                {
+                    context.Token = accessToken;
+                }
+                return Task.CompletedTask;
+            }
+        };
+    });
+
 builder.Services.AddHostedService<MessageCleanupService>();
 
 // ============================================================================
@@ -79,18 +122,13 @@ if (app.Environment.IsDevelopment())
 // --- HTTPS redirection ---
 app.UseHttpsRedirection();
 
-// --- CORS must come BEFORE UseRouting and MapHub ---
 app.UseCors("ReactDevPolicy");
 
-// --- Auth middleware (placeholder — extend for JWT in production) ---
 app.UseAuthentication();
 app.UseAuthorization();
 
-// --- Map REST Controllers ---
 app.MapControllers();
 
-// --- Map SignalR Hub ---
-// The client connects to: https://localhost:PORT/hubs/chat
 app.MapHub<ChatHub>("/hubs/chat");
 
 app.Run();

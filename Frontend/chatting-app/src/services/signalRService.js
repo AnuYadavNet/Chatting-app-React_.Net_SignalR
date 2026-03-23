@@ -19,6 +19,7 @@ const HUB_URL = process.env.REACT_APP_HUB_URL || "https://localhost:62401/hubs/c
 export const createHubConnection = () => {
   return new signalR.HubConnectionBuilder()
     .withUrl(HUB_URL, {
+      accessTokenFactory: () => localStorage.getItem("jwtToken") || "",
       // Allows SignalR to fall back: WebSockets → Server-Sent Events → Long Polling
       transport:
         signalR.HttpTransportType.WebSockets |
